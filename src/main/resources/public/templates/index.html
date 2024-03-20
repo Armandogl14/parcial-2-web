@@ -2,19 +2,108 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${titulo}">Blog</title>
+    <title th:text="${titulo}">Pagina de Encuesta</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
     <style>
         .navbar-brand,
         .nav-link {
             font-size: 20px; /* Cambiar el tamaño según sea necesario */
         }
+
+        /* Estilos adicionales para centrar y ajustar el ancho */
+        .centered {
+            text-align: center;
+            margin: 0 auto;
+            width: 50%;
+        }
+
+        .BottonCentered  {
+            text-align: center;
+            margin: 0 auto;
+            width: 20%;
+        }
+
+        /* Estilos para el fondo y bordes redondeados */
+        .rounded-background {
+            background-color: cornflowerblue; /* Color del navbar */
+            border-radius: 15px; /* Radio de borde redondeado */
+            padding: 20px; /* Espacio interno para el contenido */
+            margin-top: 20px; /* Espacio superior */
+        }
+
+        .rounded-background-2 {
+            background-color: cornflowerblue; /* Color del navbar */
+            border-radius: 15px; /* Radio de borde redondeado */
+            padding: 20px; /* Espacio interno para el contenido */
+            margin-top: 20px; /* Espacio superior */
+        }
+
+        /* Estilos para hacer el texto más grande */
+        .larger-text h2{
+            font-size: 54px; /* Tamaño de fuente más grande */
+            color: #fff; /* Color del texto */
+        }
+
+        .larger-text a {
+            font-size: 44px; /* Tamaño de fuente más grande */
+            color: #fff; /* Color del texto */
+        }
+
+        /* Estilos para dispositivos móviles */
+        @media (max-width: 768px) {
+            .centered {
+                width: 80%;
+            }
+
+            .BottonCentered {
+                width: 50%;
+            }
+
+            .larger-text h2 {
+                font-size: 32px;
+            }
+
+            .larger-text a {
+                font-size: 24px;
+            }
+        }
+        a:hover {
+            color: #000; /* Cambia el color del texto al pasar el mouse */
+            background-color: #f0f0f0; /* Cambia el color de fondo al pasar el mouse */
+        }
+
+        /* Cambiar color de enlaces al ser presionado */
+        a:active {
+            color: #333; /* Cambia el color del texto al ser presionado */
+            background-color: #dcdcdc; /* Cambia el color de fondo al ser presionado */
+        }
+        /*body {*/
+        /*    background-image: url('ruta/de/la/imagen.jpg'); !* Cambia 'ruta/de/la/imagen.jpg' por la ruta de tu imagen de fondo *!*/
+        /*    background-size: cover; !* Cubre todo el área del cuerpo *!*/
+        /*    background-position: center; !* Centra la imagen en el cuerpo *!*/
+        /*}*/
+        /*.navbar-brand {*/
+        /*    position: relative;*/
+        /*}*/
+
+        /*.navbar-brand::after {*/
+        /*    content: "";*/
+        /*    background-image: url('ruta/de/la/imagen.jpg'); !* Cambia 'ruta/de/la/imagen.jpg' por la ruta de tu imagen *!*/
+        /*    background-size: contain; !* Ajusta el tamaño de la imagen para que quepa *!*/
+        /*    background-repeat: no-repeat; !* Evita que la imagen se repita *!*/
+        /*    position: absolute;*/
+        /*    top: 50%;*/
+        /*    right: 0;*/
+        /*    transform: translateY(-50%);*/
+        /*    width: 30px; !* Ajusta el ancho según sea necesario *!*/
+        /*    height: 30px; !* Ajusta la altura según sea necesario *!*/
+        /*}*/
     </style>
 </head>
 <body>
 <header>
     <nav class="navbar navbar-expand-lg navbar-primary navbar-dark bg-primary">
-        <a class="navbar-brand" href="#">Blog</a>
+        <a class="navbar-brand" href="#">Pagina de Encuesta</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -33,6 +122,16 @@
         </div>
     </nav>
 </header>
+<div class="centered rounded-background">
+    <div class="larger-text">
+        <h2>¡Llene Formulario Aquí!</h2>
+    </div>
+</div>
+<div class="BottonCentered rounded-background-2">
+    <div class="larger-text">
+        <a href="/encuesta" class="nav-link">Presione Aquí</a>
+    </div>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
