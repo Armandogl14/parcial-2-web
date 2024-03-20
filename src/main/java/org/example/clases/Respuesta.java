@@ -1,14 +1,31 @@
 package org.example.clases;
 
-public class Respuesta {
-    private int id;
-    private Pregunta pregunta;
-    private String respuesta;
+import javax.persistence.*;
 
-    public Respuesta(int id, Pregunta pregunta, String respuesta) {
-        this.id = id;
-        this.pregunta = pregunta;
-        this.respuesta = respuesta;
+@Entity
+public class Respuesta {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    private String nombre;
+    private String sector;
+    private String nivelEscolar;
+    @ManyToOne
+    private Usuario usuario;
+    private double latitud;
+    private double longitud;
+
+    public Respuesta(String nombre, String sector, String nivelEscolar, Usuario usuario, double latitud, double longitud) {
+        this.nombre = nombre;
+        this.sector = sector;
+        this.nivelEscolar = nivelEscolar;
+        this.usuario = usuario;
+        this.latitud = latitud;
+        this.longitud = longitud;
+    }
+
+    public Respuesta() {
+
     }
 
     public int getId() {
@@ -19,19 +36,51 @@ public class Respuesta {
         this.id = id;
     }
 
-    public Pregunta getPregunta() {
-        return pregunta;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setPregunta(Pregunta pregunta) {
-        this.pregunta = pregunta;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String getRespuesta() {
-        return respuesta;
+    public String getSector() {
+        return sector;
     }
 
-    public void setRespuesta(String respuesta) {
-        this.respuesta = respuesta;
+    public void setSector(String sector) {
+        this.sector = sector;
+    }
+
+    public String getNivelEscolar() {
+        return nivelEscolar;
+    }
+
+    public void setNivelEscolar(String nivelEscolar) {
+        this.nivelEscolar = nivelEscolar;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public double getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(double latitud) {
+        this.latitud = latitud;
+    }
+
+    public double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(double longitud) {
+        this.longitud = longitud;
     }
 }

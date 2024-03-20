@@ -3,11 +3,8 @@
     <persistence-unit name="MiUnidadPersistencia" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>org.example.clases.Usuario</class>
-        <class>org.example.clases.Rol</class>
+        <class>org.example.clases.Registro</class>
         <class>org.example.clases.Respuesta</class>
-        <class>org.example.clases.RespuestaEncuesta</class>
-        <class>org.example.clases.Pregunta</class>
-        <class>org.example.clases.Encuesta</class>
         <properties>
             <!--<property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:test" />-->
             <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:tcp://localhost/~/parcial2"/>

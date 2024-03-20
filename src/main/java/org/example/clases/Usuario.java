@@ -1,19 +1,26 @@
 package org.example.clases;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.List;
-
+@Entity
 public class Usuario {
+    @Id
     private String username;
     private String password;
     private String nombre;
-    private List<Rol> roles;
+    private boolean administrator;
 
-    public Usuario(String username, String password, String nombre, List<Rol> roles) {
+    public Usuario(String username, String password, String nombre, boolean administrator) {
         this.username = username;
         this.password = password;
         this.nombre = nombre;
-        this.roles = roles;
+        this.administrator = administrator;
+    }
+
+    public Usuario() {
+
     }
 
     public String getUsername() {
@@ -40,11 +47,7 @@ public class Usuario {
         this.nombre = nombre;
     }
 
-    public List<Rol> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Rol> roles) {
-        this.roles = roles;
+    public boolean isAdministrator() {
+        return administrator;
     }
 }
