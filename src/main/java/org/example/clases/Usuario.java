@@ -9,13 +9,11 @@ public class Usuario {
     @Id
     private String username;
     private String password;
-    private String nombre;
     private boolean administrator;
 
-    public Usuario(String username, String password, String nombre, boolean administrator) {
+    public Usuario(String username, String password, boolean administrator) {
         this.username = username;
         this.password = password;
-        this.nombre = nombre;
         this.administrator = administrator;
     }
 
@@ -37,14 +35,6 @@ public class Usuario {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
 
     public boolean isAdministrator() {
