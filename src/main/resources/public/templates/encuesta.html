@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario con Thymeleaf y Bootstrap</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Formulario de Captura</h2>
+    <form action="#" th:action="@{/procesar}" method="post">
+
+
+        <div class="form-group">
+            <label for="Usuario">Usuario:</label>
+            <input type="text" class="form-control" id="Usuario" name="Usuario" th:value="${usuario.username}" readonly>
+        </div>
+
+
+        <!-- Nombre -->
+        <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese su nombre" required>
+        </div>
+
+        <!-- Sector -->
+        <div class="form-group">
+            <label for="Sector">Sector:</label>
+            <input type="text" class="form-control" id="Sector" name="Sector" placeholder="Ingrese su Sector" required>
+        </div>
+
+        <!-- Nivel Escolar -->
+        <div class="form-group">
+            <label for="nivelEscolar">Nivel Escolar:</label>
+            <select class="form-control" id="nivelEscolar" name="nivelEscolar" required>
+                <option value="">Seleccione su nivel escolar</option>
+                <option value="Básico">Básico</option>
+                <option value="Medio">Medio</option>
+                <option value="Grado Universitario">Grado Universitario</option>
+                <option value="Postgrado">Postgrado</option>
+                <option value="Doctorado">Doctorado</option>
+                <!-- Agrega más opciones según sea necesario -->
+            </select>
+        </div>
+
+        <!-- Usuario -->
+        <input type="hidden" th:value="${usuario}" name="usuario">
+
+        <!-- Botón Submit -->
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+</div>
+
+<!-- Bootstrap JS y jQuery (al final del body para mejor rendimiento) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
