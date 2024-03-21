@@ -10,10 +10,6 @@ public class EncuestaController extends BaseController{
         registerTemplates();
     }
 
-    public void registerTemplates(){
-        JavalinRenderer.register(new JavalinThymeleaf(), ".html");
-    }
-
     @Override
     public void aplicarRutas() {
         app.get("/encuesta", ctx -> {

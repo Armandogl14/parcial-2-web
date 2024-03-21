@@ -10,10 +10,6 @@ public class UserController extends BaseController{
         registerTemplates();
     }
 
-    public void registerTemplates(){
-        JavalinRenderer.register(new JavalinThymeleaf(), ".html");
-    }
-
     @Override
     public void aplicarRutas() {
 
