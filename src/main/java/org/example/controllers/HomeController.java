@@ -4,6 +4,9 @@ import io.javalin.Javalin;
 import io.javalin.rendering.JavalinRenderer;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class HomeController extends BaseController{
     public HomeController(Javalin app) {
         super(app);
@@ -13,7 +16,9 @@ public class HomeController extends BaseController{
     @Override
     public void aplicarRutas() {
         app.get("/", ctx -> {
-            ctx.render("templates/index.html");
+            Map<String, Object> model = new HashMap<>();
+            model.put("titulo", "Inicio");
+            ctx.render("public/templates/index.html", model);
         });
     }
 }

@@ -1,6 +1,6 @@
 package org.example.clases;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 public class Respuesta {

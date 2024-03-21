@@ -40,7 +40,9 @@
         </div>
 
         <!-- Usuario -->
-        <input type="hidden" th:value="${usuario}" name="usuario">
+        <input type="hidden" th:value="${session.username}" name="usuario">
+        <input type="hidden" id="latitud" name="latitud">
+        <input type="hidden" id="longitud" name="longitud">
 
         <!-- Botón Submit -->
         <button type="submit" class="btn btn-primary">Enviar</button>
@@ -51,6 +53,44 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="../js/geolocalizacion.js"></script>
+<script src="../js/indexedDB.js"></script>
+<script>
+    document.querySelector('form').onsubmit = function(e) {
+        e.preventDefault();
 
+        let nombre = document.querySelector('#nombre').value;
+        let sector = document.querySelector('#Sector').value;
+        let nivelEscolar = document.querySelector('#nivelEscolar').value;
+        let latitud = document.querySelector('#latitud').value;
+        let longitud = document.querySelector('#longitud').value;
+
+        let encuesta = {nombre: nombre, sector: sector, nivelEscolar: nivelEscolar, latitud: latitud, longitud: longitud};
+
+        if (!navigator.onLine) {
+            let transaction = db.transaction(['encuestas'], 'readwrite');
+            let objectStore = transaction.objectStore('encuestas');
+            let request = objectStore.add(encuesta);
+            request.onsuccess = function () {
+                console.log('Encuesta guardada offline');
+            };
+        } else {
+            let form = document.querySelector('form');
+            let formData = new FormData(form);
+
+            fetch('/encuesta', {
+                method: 'POST',
+                body: formData,
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Encuesta enviada con éxito:', data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+    }
+</script>
 </body>
 </html>

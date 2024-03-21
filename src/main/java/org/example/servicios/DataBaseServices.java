@@ -1,7 +1,7 @@
 package org.example.servicios;
 
-import javax.persistence.*;
-import javax.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.*;
+import jakarta.persistence.criteria.CriteriaQuery;
 import java.util.List;
 
 public class DataBaseServices<T> {
