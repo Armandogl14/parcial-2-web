@@ -77,27 +77,28 @@
             color: #333; /* Cambia el color del texto al ser presionado */
             background-color: #dcdcdc; /* Cambia el color de fondo al ser presionado */
         }
-        /*body {*/
-        /*    background-image: url('ruta/de/la/imagen.jpg'); !* Cambia 'ruta/de/la/imagen.jpg' por la ruta de tu imagen de fondo *!*/
-        /*    background-size: cover; !* Cubre todo el área del cuerpo *!*/
-        /*    background-position: center; !* Centra la imagen en el cuerpo *!*/
-        /*}*/
-        /*.navbar-brand {*/
-        /*    position: relative;*/
-        /*}*/
+        body {
+             /*    background-image: url('ruta/de/la/imagen.jpg'); !* Cambia 'ruta/de/la/imagen.jpg' por la ruta de tu imagen de fondo !/
+             /*    background-size: cover; !* Cubre todo el área del cuerpo !/
+             /*    background-position: center; !* Centra la imagen en el cuerpo !/
+             /}/
+             /.navbar-brand {/
+             /*    position: relative;*/
+         }
 
-        /*.navbar-brand::after {*/
-        /*    content: "";*/
-        /*    background-image: url('ruta/de/la/imagen.jpg'); !* Cambia 'ruta/de/la/imagen.jpg' por la ruta de tu imagen *!*/
-        /*    background-size: contain; !* Ajusta el tamaño de la imagen para que quepa *!*/
-        /*    background-repeat: no-repeat; !* Evita que la imagen se repita *!*/
+        navbar-brand::after {
+            /*    content: "";*/
+            /*    background-image: url('ruta/de/la/imagen.jpg'); !* Cambia 'ruta/de/la/imagen.jpg' por la ruta de tu imagen !/
+        /*    background-size: contain; !* Ajusta el tamaño de la imagen para que quepa !/
+        /*    background-repeat: no-repeat; !* Evita que la imagen se repita !/
         /*    position: absolute;*/
-        /*    top: 50%;*/
-        /*    right: 0;*/
-        /*    transform: translateY(-50%);*/
-        /*    width: 30px; !* Ajusta el ancho según sea necesario *!*/
-        /*    height: 30px; !* Ajusta la altura según sea necesario *!*/
-        /*}*/
+            /*    top: 50%;*/
+            /*    right: 0;*/
+            /*    transform: translateY(-50%);*/
+            /*    width: 30px; !* Ajusta el ancho según sea necesario !/
+        /*    height: 30px; !* Ajusta la altura según sea necesario !/
+         */
+        }
     </style>
 </head>
 <body>
@@ -117,6 +118,9 @@
                 </li>
                 <li class="nav-item d-none d-sm-inline-block" th:if="${session.username}">
                     <a href="/user/close" class="nav-link">Cerrar Sesion</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block" th:if="${session.username and session.username.administrator}">
+                    <a href="/user/list/1" class="nav-link">User List</a>
                 </li>
             </ul>
         </div>
