@@ -1,14 +1,13 @@
-const CACHE_NAME = 'encuesta-cache-v1';
-const urlsToCache = [
-    '../templates/',
-    '../templates/index.html',
-    '../templates/Login.html',
-    '../templates/encuesta.html',
+var CACHE_NAME = 'encuesta-cache-v1';
+var urlsToCache = [
+    '/',
+    '/encuesta',
     '/css/style.css',
-    '/js/',
     '/js/indexedDB.js',
     '/js/geolocalizacion.js'
 ];
+
+var fallback = "/templates/offline.html"
 
 self.addEventListener('install', function(event) {
     event.waitUntil(

@@ -21,7 +21,7 @@ public class UserServices extends DataBaseServices<Usuario>{
         return instancia;
     }
     public Usuario findUserByUsername(String username){
-        Usuario user = null;
+        Usuario user;
         user = this.find(username);
 
         return user;

@@ -11,7 +11,7 @@
 
 <div class="container">
     <h2>Formulario de Captura</h2>
-    <form action="#" th:action="@{/procesar}" method="post">
+    <form>
 
         <!-- Nombre -->
         <div class="form-group">
@@ -38,9 +38,11 @@
                 <!-- Agrega más opciones según sea necesario -->
             </select>
         </div>
+        <div class="form-group">
+            <label for="usuario">Usuario:</label>
+            <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Ingrese su usuario" required>
+        </div>
 
-        <!-- Usuario -->
-        <input type="hidden" th:value="${session.username}" name="usuario">
         <input type="hidden" id="latitud" name="latitud">
         <input type="hidden" id="longitud" name="longitud">
 
@@ -53,43 +55,34 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="../js/geolocalizacion.js"></script>
 <script src="../js/indexedDB.js"></script>
+<script src="../js/geolocalizacion.js"></script>
 <script>
     document.querySelector('form').onsubmit = function(e) {
         e.preventDefault();
 
-        let nombre = document.querySelector('#nombre').value;
-        let sector = document.querySelector('#Sector').value;
-        let nivelEscolar = document.querySelector('#nivelEscolar').value;
-        let latitud = document.querySelector('#latitud').value;
-        let longitud = document.querySelector('#longitud').value;
+        setCoordinates(); // Call the function to set the coordinates
 
-        let encuesta = {nombre: nombre, sector: sector, nivelEscolar: nivelEscolar, latitud: latitud, longitud: longitud};
+        window.initializeDB().then(function(db) {
+            let nombre = document.querySelector('#nombre').value;
+            let sector = document.querySelector('#Sector').value;
+            let nivelEscolar = document.querySelector('#nivelEscolar').value;
+            let latitud = document.querySelector('#latitud').value;
+            let longitud = document.querySelector('#longitud').value;
+            let usuario = document.querySelector('#usuario').value; // New "usuario" field
 
-        if (!navigator.onLine) {
+            let encuesta = {nombre: nombre, sector: sector, nivelEscolar: nivelEscolar, latitud: latitud, longitud: longitud, usuario: usuario};
+
             let transaction = db.transaction(['encuestas'], 'readwrite');
             let objectStore = transaction.objectStore('encuestas');
             let request = objectStore.add(encuesta);
             request.onsuccess = function () {
-                console.log('Encuesta guardada offline');
+                console.log('Encuesta guardada en IndexedDB');
+                window.location.href = '/'; // Redirige a la página de inicio
             };
-        } else {
-            let form = document.querySelector('form');
-            let formData = new FormData(form);
-
-            fetch('/encuesta', {
-                method: 'POST',
-                body: formData,
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Encuesta enviada con éxito:', data);
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
-        }
+        }).catch(function(error) {
+            console.log("Error initializing database: ", error);
+        });
     }
 </script>
 </body>
