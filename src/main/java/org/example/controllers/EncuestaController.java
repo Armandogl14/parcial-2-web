@@ -33,6 +33,9 @@ public class EncuestaController extends BaseController{
             RegistroServices.getInstancia().insert(new Registro(respuesta, usuario));
             ctx.redirect("/");
         });
-    }
 
+        app.get("encuesta/stored", ctx -> {
+            ctx.render("public/templates/listar-stored-register.html");
+        });
+    }
 }

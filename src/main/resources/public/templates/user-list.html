@@ -44,11 +44,11 @@
         </tbody>
     </table>
     <div class="pagination">
-        <a href="#" th:if="${currentPage > 1}" th:href="@{/user/list/{page}(page=${currentPage - 1})}">Previous</a>
+        <a href="#" th:if="${currentPage > 1}" th:href="@{/user/list?page=${currentPage - 1}}">Previous</a>
         <span th:each="page : ${#numbers.sequence(1, totalPages)}">
-        <a href="#" th:href="@{/user/list/{page}}" th:text="${page}"></a>
+        <a href="#" th:href="@{/user/list?page=${page}}" th:text="${page}"></a>
     </span>
-        <a href="#" th:if="${currentPage < totalPages}" th:href="@{/user/list/{page}(page=${currentPage + 1})}">Next</a>
+        <a href="#" th:if="${currentPage < totalPages}" th:href="@{/user/list?page=${currentPage + 1}}">Next</a>
     </div>
     <div class="row">
         <div class="col-md-3 col-sm-6">

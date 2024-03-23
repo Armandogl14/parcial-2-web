@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registros de la Encuesta</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="../js/indexedDB.js"></script>
+    <script src="../js/storedRegister.js"></script>
+</head>
+<body>
+<div class="container">
+    <h2>Registros de la Encuesta</h2>
+    <div class="table-responsive"> <!-- Agregado para hacer la tabla responsive -->
+        <table class="table table-striped" id="recordsTable">
+            <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Sector</th>
+                <th>Nivel Escolar</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Los registros de la IndexedDB se insertarán aquí -->
+            </tbody>
+        </table>
+    </div> <!-- Fin del div para hacer la tabla responsive -->
+    <div>
+        <button class="btn btn-primary" id="syncButton">Sincronizar con el servidor</button>
+    </div>
+    <div>
+        <a href="/"><button class="btn btn-danger">Volver al inicio</button></a>
+    </div>
+</div>
+
+<!-- Bootstrap JS y jQuery (al final del body para mejor rendimiento) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    // Llama a la función para mostrar los registros cuando la página se carga
+    window.onload = displayRecords;
+</script>
+</body>
+</html>

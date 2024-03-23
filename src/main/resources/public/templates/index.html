@@ -120,7 +120,10 @@
                     <a href="/user/close" class="nav-link">Cerrar Sesion</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block" th:if="${session.username and session.username.administrator}">
-                    <a href="/user/list/1" class="nav-link">User List</a>
+                    <a href="/user/list" class="nav-link">User List</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="/encuesta/stored" class="nav-link">Sincronizar</a>
                 </li>
             </ul>
         </div>

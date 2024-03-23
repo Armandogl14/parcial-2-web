@@ -95,8 +95,9 @@ public class UserController extends BaseController{
             }
         });
 
-        app.get("/user/list/{page}", ctx -> {
-            int page = Integer.parseInt(ctx.pathParam("page"));
+        app.get("/user/list", ctx -> {
+            String pageParam = ctx.queryParam("page");
+            int page = (pageParam != null) ? Integer.parseInt(pageParam) : 1;
             List<Usuario> usuarios = UserServices.getInstancia().findAll(page, 5);
             int totalUsers = UserServices.getInstancia().findAll().size();
             int totalPages = (int) Math.ceil((double) totalUsers / 5);
