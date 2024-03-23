@@ -53,28 +53,30 @@ public class EncuestaController extends BaseController{
 
                 // Parsear el mensaje JSON a un JsonObject
                 JsonElement jelement = JsonParser.parseString(message);
-                JsonArray jsonArray = jelement.getAsJsonArray();
+                if (jelement.isJsonArray()){
+                    JsonArray jsonArray = jelement.getAsJsonArray();
 
-                for(JsonElement element : jsonArray){
-                    JsonObject jobject = element.getAsJsonObject();
-                    // Obtener cada campo individualmente
-                    String nombre = jobject.get("nombre").getAsString();
-                    String sector = jobject.get("sector").getAsString();
-                    String nivelEscolar = jobject.get("nivelEscolar").getAsString();
-                    String usuario = jobject.get("usuario").getAsString();
-                    double latitud = jobject.get("latitud").getAsDouble();
-                    double longitud = jobject.get("longitud").getAsDouble();
+                    for(JsonElement element : jsonArray){
+                        JsonObject jobject = element.getAsJsonObject();
+                        // Obtener cada campo individualmente
+                        String nombre = jobject.get("nombre").getAsString();
+                        String sector = jobject.get("sector").getAsString();
+                        String nivelEscolar = jobject.get("nivelEscolar").getAsString();
+                        String usuario = jobject.get("usuario").getAsString();
+                        double latitud = jobject.get("latitud").getAsDouble();
+                        double longitud = jobject.get("longitud").getAsDouble();
 
-                    Usuario user = UserServices.getInstancia().find(usuario);
-                    Respuesta respuesta = new Respuesta(nombre, sector, nivelEscolar, user, latitud, longitud);
-                    Registro registro = new Registro(respuesta, user);
+                        Usuario user = UserServices.getInstancia().find(usuario);
+                        Respuesta respuesta = new Respuesta(nombre, sector, nivelEscolar, user, latitud, longitud);
+                        Registro registro = new Registro(respuesta, user);
 
-                    try {
-                        RespuestaServices.getInstancia().insert(respuesta);
-                        RegistroServices.getInstancia().insert(registro);
-                        System.out.println("Registro almacenado en la base de datos");
-                    } catch (Exception e) {
-                        System.out.println("Error al procesar el registro: " + e.getMessage());
+                        try {
+                            RespuestaServices.getInstancia().insert(respuesta);
+                            RegistroServices.getInstancia().insert(registro);
+                            System.out.println("Registro almacenado en la base de datos");
+                        } catch (Exception e) {
+                            System.out.println("Error al procesar el registro: " + e.getMessage());
+                        }
                     }
                 }
             });
