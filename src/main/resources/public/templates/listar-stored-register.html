@@ -114,6 +114,52 @@
             });
         });
     }
+    var CACHE_NAME = 'my-site-cache-v1';
+    var urlsToCache = [
+  '/',
+  '/encuestas.html',
+  '/listar-stored-register.html',
+  // otros archivos que quieras almacenar en caché
+];
+
+self.addEventListener('install', function(event) {
+  // Realiza los pasos de instalación
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(function(cache) {
+        console.log('Opened cache');
+        return cache.addAll(urlsToCache);
+      })
+  );
+});
+function storeSurveyOffline(survey) {
+    var db;
+    var request = indexedDB.open("offlineSurveys", 1);
+
+    request.onerror = function(event) {
+        console.log("Error al abrir la base de datos", event);
+    };
+
+    request.onupgradeneeded = function(event) {
+        db = event.target.result;
+        var objectStore = db.createObjectStore("surveys", { autoIncrement: true });
+    };
+
+    request.onsuccess = function(event) {
+        db = event.target.result;
+        var transaction = db.transaction(["surveys"], "readwrite");
+        var objectStore = transaction.objectStore("surveys");
+        var request = objectStore.add(survey);
+
+        request.onsuccess = function(event) {
+            console.log("Encuesta almacenada offline");
+        };
+
+        request.onerror = function(event) {
+            console.log("Error al almacenar la encuesta offline", event);
+        };
+    };
+}
 </script>
 </body>
 </html>
