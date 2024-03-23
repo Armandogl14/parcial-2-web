@@ -102,6 +102,18 @@
 <script>
     // Llama a la función para mostrar los registros cuando la página se carga
     window.onload = displayRecords;
+    //guarda en cache los registros
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register('/js/serviceWorker.js').then(function(registration) {
+                // Registro exitoso
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            }, function(err) {
+                // Registro fallido
+                console.log('ServiceWorker registration failed: ', err);
+            });
+        });
+    }
 </script>
 </body>
 </html>
