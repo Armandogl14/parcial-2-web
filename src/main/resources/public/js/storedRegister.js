@@ -138,9 +138,45 @@ syncButton.onclick = function () {
     syncWithServer();
 };
 
-// 5. Crear una función para manejar la acción de sincronización.
+var webSocket;
+var tiempoReconectar = 5000;
+
 async function syncWithServer() {
     let records = await getAllRecords();
-    // Aquí va el código para sincronizar los registros con el servidor.
-    // Podrías usar un Service Worker y WebSockets para esto.
+    conectar(records);
 }
+
+function conectar(records) {
+    webSocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/encuesta/sincronizar");
+    webSocket.onopen = function() {
+        webSocket.send(JSON.stringify(records));
+        deleteAllRecords();
+    };
+    webSocket.onerror = function(error) {
+        console.log('WebSocket Error: ', error);
+    };
+    webSocket.onclose = function(e) {
+        console.log("Desconectado - status "+this.readyState);
+    };
+}
+
+function deleteAllRecords() {
+    let transaction = db.transaction(['encuestas'], 'readwrite');
+    let objectStore = transaction.objectStore('encuestas');
+    let request = objectStore.clear();
+    request.onsuccess = function () {
+        console.log('Todos los registros han sido borrados de la IndexedDB');
+        location.reload()
+    };
+    request.onerror = function () {
+        console.log('Error al borrar los registros de la IndexedDB');
+    };
+}
+
+function verificarConexion(records){
+    if(!webSocket || webSocket.readyState == 3){
+        conectar(records);
+    }
+}
+
+setInterval(verificarConexion, tiempoReconectar); //para reconectar.
