@@ -26,19 +26,6 @@ public class EncuestaController extends BaseController{
             ctx.render("public/templates/encuesta.html");
         });
 
-        app.post("/encuesta", ctx -> {
-            Usuario usuario = ctx.sessionAttribute("usuario");
-            String nombre = ctx.formParam("nombre");
-            String sector = ctx.formParam("Sector");
-            String nivelEdicativo = ctx.formParam("nivelEscolar");
-            double latitud = Double.parseDouble(ctx.formParam("latitud"));
-            double longitud = Double.parseDouble(ctx.formParam("longitud"));
-            Respuesta respuesta = new Respuesta(nombre, sector, nivelEdicativo, usuario, latitud, longitud);
-            RespuestaServices.getInstancia().insert(respuesta);
-            RegistroServices.getInstancia().insert(new Registro(respuesta, usuario));
-            ctx.redirect("/");
-        });
-
         app.get("encuesta/stored", ctx -> {
             ctx.render("public/templates/listar-stored-register.html");
         });
