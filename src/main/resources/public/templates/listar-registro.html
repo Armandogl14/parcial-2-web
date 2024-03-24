@@ -10,6 +10,18 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+    <style>
+        #map-canvas {
+            height: 400px;
+        }
+
+        @media (max-width: 768px) {
+            #map-canvas {
+                height: 200px;
+            }
+        }
+    </style>
 </head>
 <body>
 <div class="container">
@@ -18,22 +30,34 @@
         <table class="table table-striped" id="recordsTable">
             <thead>
             <tr>
+                <th>id</th>
                 <th>Nombre</th>
                 <th>Sector</th>
                 <th>Nivel Escolar</th>
+                <th>Ubicacion</th>
             </tr>
             </thead>
-            <tbody>
-            <!-- Los registros de la IndexedDB se insertarán aquí -->
+            <tbody id="registrosTable">
+            <article th:each="registro : ${registros}">
+                <tr>
+                    <td id="id" th:text="${registro.id}"></td>
+                    <td th:text="${registro.formulario.nombre}"></td>
+                    <td th:text="${registro.formulario.sector}"></td>
+                    <td th:text="${registro.formulario.nivelEscolar}"></td>
+                    <td>
+                        <a href="#" class="mapLink" th:data-latitud="${registro.formulario.latitud}" th:data-longitud="${registro.formulario.longitud}">Ver en mapa</a></td>
+                </tr>
+            </article>
+
             </tbody>
         </table>
     </div> <!-- Fin del div para hacer la tabla responsive -->
-    <div>
-        <button class="btn btn-primary" id="syncButton">Sincronizar con el servidor</button>
-    </div>
-    <div>
-        <a href="/"><button class="btn btn-danger">Volver al inicio</button></a>
-    </div>
+<!--    <div>-->
+<!--        <button class="btn btn-primary" id="syncButton">Sincronizar con el servidor</button>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <a href="/"><button class="btn btn-danger">Volver al inicio</button></a>-->
+<!--    </div>-->
 </div>
 <div class="modal" tabindex="-1" id="editModal">
     <div class="modal-dialog">
@@ -98,70 +122,35 @@
         </div>
     </div>
 </div>
-<script src="../js/storedRegister.js"></script>
+<!-- Div para mostrar el mapa -->
+<div id="map-canvas"></div>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script>
-    // Llama a la función para mostrar los registros cuando la página se carga
-    window.onload = displayRecords;
-    //guarda en cache los registros
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-            navigator.serviceWorker.register('/js/serviceWorker.js').then(function(registration) {
-                // Registro exitoso
-                console.log('ServiceWorker registration successful with scope: ', registration.scope);
-            }, function(err) {
-                // Registro fallido
-                console.log('ServiceWorker registration failed: ', err);
-            });
+    // En tu archivo JavaScript o JSX
+    $(document).ready(function() {
+        const mymap = L.map('map-canvas');
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 50,
+        }).addTo(mymap);
+
+        $('.mapLink').click(function() {
+            let latitud = $(this).data('latitud');
+            let longitud = $(this).data('longitud');
+
+            if (!isNaN(latitud) && !isNaN(longitud)) {
+                latitud = parseFloat(latitud);
+                longitud = parseFloat(longitud);
+
+                mymap.setView([latitud, longitud], 13);
+                L.marker([latitud, longitud]).addTo(mymap)
+                    .bindPopup('Ubicación')
+                    .openPopup();
+            } else {
+                console.error('Latitud y longitud no son números válidos');
+            }
         });
-    }
-    self.addEventListener('install', (event) => {
-        event.waitUntil(
-            caches.open('my-cache-name').then((cache) => {
-                return cache.addAll([
-                    '/',
-                    '/encuestas.html',
-                    '/listar-stored-register.html',
-                    // Agrega aquí otros archivos que quieras almacenar en caché
-                ]);
-            })
-        );
     });
-
-    self.addEventListener('fetch', (event) => {
-        event.respondWith(
-            caches.match(event.request).then((response) => {
-                return response || fetch(event.request);
-            })
-        );
-    });
-function storeSurveyOffline(survey) {
-    var db;
-    var request = indexedDB.open("offlineSurveys", 1);
-
-    request.onerror = function(event) {
-        console.log("Error al abrir la base de datos", event);
-    };
-
-    request.onupgradeneeded = function(event) {
-        db = event.target.result;
-        var objectStore = db.createObjectStore("surveys", { autoIncrement: true });
-    };
-
-    request.onsuccess = function(event) {
-        db = event.target.result;
-        var transaction = db.transaction(["surveys"], "readwrite");
-        var objectStore = transaction.objectStore("surveys");
-        var request = objectStore.add(survey);
-
-        request.onsuccess = function(event) {
-            console.log("Encuesta almacenada offline");
-        };
-
-        request.onerror = function(event) {
-            console.log("Error al almacenar la encuesta offline", event);
-        };
-    };
-}
 </script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </body>
 </html>
