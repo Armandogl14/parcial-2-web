@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaflet Example</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 400px;
+            width: 600px;
+        }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    // Crear un mapa en el elemento div con el id "map"
+    var map = L.map('map').setView([51.505, -0.09], 13); // Coordenadas iniciales y nivel de zoom
+
+    // Agregar una capa de mapa base (TileLayer) de OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+        maxZoom: 19,
+    }).addTo(map);
+
+    // Agregar un marcador en una ubicación específica
+    var marker = L.marker([51.5, -0.09]).addTo(map);
+
+    // Agregar un popup al marcador
+    marker.bindPopup("<b>Hello world!</b><br>This is a popup.").openPopup();
+</script>
+</body>
+</html>

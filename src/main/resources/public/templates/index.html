@@ -125,6 +125,10 @@
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="/encuesta/stored" class="nav-link">Sincronizar</a>
                 </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="/registro" class="nav-link">Listar Registros</a>
+                </li>
+
             </ul>
         </div>
     </nav>
@@ -147,7 +151,7 @@
 <script>
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', function(){
-            navigator.serviceWorker.register('../js/serviceWorker.js')
+            navigator.serviceWorker.register('/js/serviceWorker.js')
                 .then(function(registration) {
                     console.log('Service Worker registered with scope:', registration.scope);
                 })

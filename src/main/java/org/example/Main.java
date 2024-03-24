@@ -5,6 +5,7 @@ import io.javalin.http.staticfiles.Location;
 import org.example.clases.Usuario;
 import org.example.controllers.EncuestaController;
 import org.example.controllers.HomeController;
+import org.example.controllers.RegistroController;
 import org.example.controllers.UserController;
 import org.example.servicios.BootStrapServices;
 import org.example.servicios.UserServices;
@@ -28,5 +29,6 @@ public class Main {
         new HomeController(app).aplicarRutas();
         new UserController(app).aplicarRutas();
         new EncuestaController(app).aplicarRutas();
+        new RegistroController(app).aplicarRutas();
     }
 }

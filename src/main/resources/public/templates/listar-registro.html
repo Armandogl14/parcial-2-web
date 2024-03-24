@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registros de la Encuesta</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="../js/indexedDB.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+    <style>
+        #map-canvas {
+            height: 400px;
+        }
+
+        @media (max-width: 768px) {
+            #map-canvas {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Registros de la Encuesta</h2>
+    <div class="table-responsive"> <!-- Agregado para hacer la tabla responsive -->
+        <table class="table table-striped" id="recordsTable">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>Nombre</th>
+                <th>Sector</th>
+                <th>Nivel Escolar</th>
+                <th>Ubicacion</th>
+            </tr>
+            </thead>
+            <tbody id="registrosTable">
+            <article th:each="registro : ${registros}">
+                <tr>
+                    <td id="id" th:text="${registro.id}"></td>
+                    <td th:text="${registro.formulario.nombre}"></td>
+                    <td th:text="${registro.formulario.sector}"></td>
+                    <td th:text="${registro.formulario.nivelEscolar}"></td>
+                    <td>
+                        <a href="#" class="mapLink" th:data-latitud="${registro.formulario.latitud}" th:data-longitud="${registro.formulario.longitud}">Ver en mapa</a></td>
+                </tr>
+            </article>
+
+            </tbody>
+        </table>
+    </div> <!-- Fin del div para hacer la tabla responsive -->
+<!--    <div>-->
+<!--        <button class="btn btn-primary" id="syncButton">Sincronizar con el servidor</button>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <a href="/"><button class="btn btn-danger">Volver al inicio</button></a>-->
+<!--    </div>-->
+</div>
+<div class="modal" tabindex="-1" id="editModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Registro</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <input type="hidden" id="editId">
+                    <div class="form-group">
+                        <label for="editNombre">Nombre</label>
+                        <input type="text" class="form-control" id="editNombre">
+                    </div>
+                    <div class="form-group">
+                        <label for="editSector">Sector</label>
+                        <input type="text" class="form-control" id="editSector">
+                    </div>
+                    <div class="form-group">
+                        <label for="editNivelEscolar">Nivel Escolar:</label>
+                        <select class="form-control" id="editNivelEscolar" name="editNivelEscolar" required>
+                            <option value="">Seleccione su nivel escolar</option>
+                            <option value="Básico">Básico</option>
+                            <option value="Medio">Medio</option>
+                            <option value="Grado Universitario">Grado Universitario</option>
+                            <option value="Postgrado">Postgrado</option>
+                            <option value="Doctorado">Doctorado</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editUsuario">Usuario</label>
+                        <input type="text" class="form-control" id="editUsuario">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="saveButton">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" tabindex="-1" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmar Borrado</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>¿Estás seguro de que quieres borrar este registro?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="confirmDeleteButton">Borrar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Div para mostrar el mapa -->
+<div id="map-canvas"></div>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    // En tu archivo JavaScript o JSX
+    $(document).ready(function() {
+        const mymap = L.map('map-canvas');
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 50,
+        }).addTo(mymap);
+
+        $('.mapLink').click(function() {
+            let latitud = $(this).data('latitud');
+            let longitud = $(this).data('longitud');
+
+            if (!isNaN(latitud) && !isNaN(longitud)) {
+                latitud = parseFloat(latitud);
+                longitud = parseFloat(longitud);
+
+                mymap.setView([latitud, longitud], 13);
+                L.marker([latitud, longitud]).addTo(mymap)
+                    .bindPopup('Ubicación')
+                    .openPopup();
+            } else {
+                console.error('Latitud y longitud no son números válidos');
+            }
+        });
+    });
+</script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</body>
+</html>
