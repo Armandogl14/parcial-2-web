@@ -46,7 +46,7 @@ public class EncuestaController extends BaseController{
             ctx.render("public/templates/listar-stored-register.html");
         });
 
-        app.post("/encuesta/sincronizar", ctx -> {
+        /*app.post("/encuesta/sincronizar", ctx -> {
             String message = ctx.body();
             System.out.println("Received: " + message);
 
@@ -78,8 +78,8 @@ public class EncuestaController extends BaseController{
                     }
                 }
             }
-        });
-/*
+        });*/
+
         app.ws("/encuesta/sincronizar", ws -> {
             ws.onConnect(session -> {
                 System.out.println("Conectado");
@@ -129,6 +129,6 @@ public class EncuestaController extends BaseController{
             ws.onError(ctx -> {
                 System.out.println("Error en WS");
             });
-        });*/
+        });
     }
 }
