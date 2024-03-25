@@ -46,6 +46,29 @@ public class UserController extends BaseController{
                 ctx.redirect("/");
             }
         });
+        app.get("/user/crear", ctx -> {
+            Map<String, Object> model = new HashMap<>();
+
+            model.put("titulo", "Crear");
+            ctx.render("/public/templates/register.html", model);
+        });
+
+        app.post("/user/crear", ctx -> {
+            String user = ctx.formParam("usuario");
+            String name = ctx.formParam("nombre");
+            String pass = ctx.formParam("password");
+
+            Usuario existingUser = UserServices.getInstancia().findUserByUsername(user);
+            if (existingUser != null) {
+                ctx.render("/templates/register.html", Map.of("error", "El nombre de usuario ya existe"));
+            }
+            else{
+                Usuario temp = new Usuario(user, pass, false);
+                UserServices.getInstancia().insert(temp);
+                //ctx.sessionAttribute("username", temp);
+                ctx.redirect("/user/list");
+            }
+        });
 
         app.get("/user/login", ctx -> {
             Map<String, Object> model = new HashMap<>();
@@ -115,11 +138,17 @@ public class UserController extends BaseController{
             }
             String usuario = ctx.formParam("usuario");
             String password = ctx.formParam("password");
-            boolean admin = ctx.formParam("admin") != null;
+            boolean admin = ctx.formParam("admin") == null;
 
             user.setUsername(usuario);
             user.setPassword(password);
-            user.setAdministrator(admin);
+            if(admin){
+                user.setAdministrator(true);
+            }
+            else{
+                user.setAdministrator(false);
+            }
+            //user.setAdministrator(admin);
 
             UserServices.getInstancia().update(user);
             ctx.redirect("/user/list");
