@@ -9,21 +9,59 @@
         .nav-link {
             font-size: 20px; /* Cambiar el tamaño según sea necesario */
         }
-        @media (max-width: 412px) {
-            .navbar {
-                font-size: 64px; /* Ajusta el tamaño de la fuente según sea necesario */
-                padding: 50px; /* Aumenta el padding para dar más espacio */
-                height: 10px; /* Ajusta la altura del navbar */
-            }
-        }
+        /*@media (max-width: 412px) {*/
+        /*    .navbar {*/
+        /*        font-size: 64px; !* Ajusta el tamaño de la fuente según sea necesario *!*/
+        /*        padding: 50px; !* Aumenta el padding para dar más espacio *!*/
+        /*        height: 10px; !* Ajusta la altura del navbar *!*/
+        /*    }*/
+        /*}*/
         @media only screen
         and (min-device-width: 375px)
         and (max-device-width: 667px)
         and (-webkit-min-device-pixel-ratio: 2) {
             .navbar {
-                font-size: 64px; /* Ajusta el tamaño de la fuente según sea necesario */
-                padding: 50px; /* Aumenta el padding para dar más espacio */
-                height: 10px; /* Ajusta la altura del navbar */
+                font-size: 14px; /* Ajusta el tamaño de la fuente según sea necesario */
+                padding: 10px; /* Aumenta el padding para dar más espacio */
+                height: auto; /* Ajusta la altura del navbar */
+            }
+            .navbar-brand{
+                font-size: 64px;
+            }
+            .nav-link{
+                font-size: 34px;
+            }
+            .centered {
+                width: 700%; /* Ajusta el ancho según sea necesario */
+            }
+
+            .BottonCentered {
+                width: 100%; /* Ajusta el ancho según sea necesario */
+            }
+
+            .larger-text h2 {
+                font-size: 24px; /* Ajusta el tamaño de la fuente según sea necesario */
+            }
+
+            .larger-text a {
+                font-size: 10px; /* Ajusta el tamaño de la fuente según sea necesario */
+            }
+            .BottonCentered  {
+                text-align: center;
+                margin: 0 auto;
+                width: 20%;
+            }
+            .rounded-background-2 {
+                background-color: cornflowerblue; /* Color del navbar */
+                border-radius: 15px; /* Radio de borde redondeado */
+                padding: 20px; /* Espacio interno para el contenido */
+                margin-top: 20px; /* Espacio superior */
+                margin-outside: auto;
+                width: 1000px; /* Ajusta el ancho según sea necesario */
+            }
+            .BottonCentered.rounded-background-2 {
+                width: 50%; /* Ajusta el ancho según sea necesario */
+                height: auto; /* Ajusta la altura según sea necesario */
             }
         }
 
@@ -68,23 +106,6 @@
         }
 
         /* Estilos para dispositivos móviles */
-        @media (max-width: 768px) {
-            .centered {
-                width: 80%;
-            }
-
-            .BottonCentered {
-                width: 50%;
-            }
-
-            .larger-text h2 {
-                font-size: 32px;
-            }
-
-            .larger-text a {
-                font-size: 24px;
-            }
-        }
         a:hover {
             color: #000; /* Cambia el color del texto al pasar el mouse */
             background-color: #f0f0f0; /* Cambia el color de fondo al pasar el mouse */
@@ -178,6 +199,33 @@
                 });
         });
     }
+    const express = require('express');
+    const app = express();
+
+    // Ruta para obtener un color aleatorio
+    app.get('/getRandomColor', (req, res) => {
+        // Generar un color aleatorio en formato hexadecimal
+        const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+
+        // Devolver el color aleatorio como objeto JSON
+        res.json({ color: randomColor });
+    });
+
+    // Escuchar en el puerto 3000
+    app.listen(3000, () => {
+        console.log('Servidor escuchando en el puerto 3000');
+    });
+    $(document).ready(function() {
+        setInterval(function() {
+            $.ajax({
+                url: '/getRandomColor', // URL de tu endpoint que devuelve un color aleatorio
+                type: 'GET',
+                success: function(data) {
+                    $('.BottonCentered.rounded-background-2').css('background-color', data.color);
+                }
+            });
+        }, 500); // Ejecuta la función cada 1000 milisegundos (1 segundo)
+    });
 </script>
 </body>
 </html>

@@ -10,6 +10,25 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+
+        @media only screen
+        and (min-device-width: 375px)
+        and (max-device-width: 667px)
+        and (-webkit-min-device-pixel-ratio: 2) {
+            .iphone-text {
+                font-size: 14px; /* Ajusta el tamaño de la fuente según sea necesario */
+            }
+            .navbar {
+                font-size: 14px; /* Ajusta el tamaño de la fuente según sea necesario */
+                padding: 10px; /* Aumenta el padding para dar más espacio */
+                height: auto; /* Ajusta la altura del navbar */
+            }
+            .navbar-brand{
+                font-size: 24px;
+            }
+        }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-primary navbar-dark bg-primary">
@@ -24,9 +43,9 @@
         <table class="table table-striped" id="recordsTable">
             <thead>
             <tr>
-                <th>Nombre</th>
-                <th>Sector</th>
-                <th>Nivel Escolar</th>
+                <th class="iphone-text">Nombre</th>
+                <th class="iphone-text">Sector</th>
+                <th class="iphone-text">Nivel Escolar</th>
             </tr>
             </thead>
             <tbody>
@@ -108,6 +127,7 @@
 <script>
     // Llama a la función para mostrar los registros cuando la página se carga
     window.onload = displayRecords;
+    // Llama a la función para sincronizar los registros con el servidor cuando se presiona el botón
 </script>
 </body>
 </html>
