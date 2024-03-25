@@ -12,6 +12,11 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
     <style>
+        .navbar-brand,
+        .nav-link {
+            font-size: 20px; /* Cambiar el tamaño según sea necesario */
+        }
+
         #map-canvas {
             height: 400px;
         }
@@ -24,9 +29,16 @@
     </style>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-primary navbar-dark bg-primary">
+    <a class="navbar-brand" href="/">Volver al inicio</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</nav>
 <div class="container">
+
     <h2>Registros de la Encuesta</h2>
-    <div class="table-responsive"> <!-- Agregado para hacer la tabla responsive -->
+    <div class="table-responsive" style="overflow:auto; height:500px;"><!-- Agregado para hacer la tabla responsive -->
         <table class="table table-striped" id="recordsTable">
             <thead>
             <tr>
@@ -51,77 +63,8 @@
 
             </tbody>
         </table>
-    </div> <!-- Fin del div para hacer la tabla responsive -->
-<!--    <div>-->
-<!--        <button class="btn btn-primary" id="syncButton">Sincronizar con el servidor</button>-->
-<!--    </div>-->
-<!--    <div>-->
-<!--        <a href="/"><button class="btn btn-danger">Volver al inicio</button></a>-->
-<!--    </div>-->
-</div>
-<div class="modal" tabindex="-1" id="editModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Editar Registro</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="editForm">
-                    <input type="hidden" id="editId">
-                    <div class="form-group">
-                        <label for="editNombre">Nombre</label>
-                        <input type="text" class="form-control" id="editNombre">
-                    </div>
-                    <div class="form-group">
-                        <label for="editSector">Sector</label>
-                        <input type="text" class="form-control" id="editSector">
-                    </div>
-                    <div class="form-group">
-                        <label for="editNivelEscolar">Nivel Escolar:</label>
-                        <select class="form-control" id="editNivelEscolar" name="editNivelEscolar" required>
-                            <option value="">Seleccione su nivel escolar</option>
-                            <option value="Básico">Básico</option>
-                            <option value="Medio">Medio</option>
-                            <option value="Grado Universitario">Grado Universitario</option>
-                            <option value="Postgrado">Postgrado</option>
-                            <option value="Doctorado">Doctorado</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="editUsuario">Usuario</label>
-                        <input type="text" class="form-control" id="editUsuario">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="saveButton">Guardar</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
     </div>
-</div>
-<div class="modal" tabindex="-1" id="deleteModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Confirmar Borrado</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>¿Estás seguro de que quieres borrar este registro?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="confirmDeleteButton">Borrar</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-            </div>
-        </div>
-    </div>
-</div>
+</div><!-- Fin del div para hacer la tabla responsive -->
 <!-- Div para mostrar el mapa -->
 <div id="map-canvas"></div>
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -150,6 +93,16 @@
             }
         });
     });
+    window.onload = function() {
+        let rows = document.querySelectorAll('article tr');
+        for(let i = 0; i < rows.length; i++) {
+            if(i % 2 === 0) {
+                rows[i].style.backgroundColor = '#a1a0a0'; // color for even rows
+            } else {
+                rows[i].style.backgroundColor = '#e0e0e0'; // color for odd rows
+            }
+        }
+    };
 </script>
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </body>

@@ -9,8 +9,26 @@
         .nav-link {
             font-size: 20px; /* Cambiar el tamaño según sea necesario */
         }
+        @media (max-width: 412px) {
+            .navbar {
+                font-size: 64px; /* Ajusta el tamaño de la fuente según sea necesario */
+                padding: 50px; /* Aumenta el padding para dar más espacio */
+                height: 10px; /* Ajusta la altura del navbar */
+            }
+        }
+        @media only screen
+        and (min-device-width: 375px)
+        and (max-device-width: 667px)
+        and (-webkit-min-device-pixel-ratio: 2) {
+            .navbar {
+                font-size: 64px; /* Ajusta el tamaño de la fuente según sea necesario */
+                padding: 50px; /* Aumenta el padding para dar más espacio */
+                height: 10px; /* Ajusta la altura del navbar */
+            }
+        }
 
-        /* Estilos adicionales para centrar y ajustar el ancho */
+            /* Tus estilos aq
+                /* Estilos adicionales para centrar y ajustar el ancho */
         .centered {
             text-align: center;
             margin: 0 auto;
