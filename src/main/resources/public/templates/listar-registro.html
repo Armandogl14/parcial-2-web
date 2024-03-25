@@ -12,9 +12,21 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
     <style>
-        .navbar-brand,
-        .nav-link {
-            font-size: 20px; /* Cambiar el tamaño según sea necesario */
+        . @media only screen
+        and (min-device-width: 375px)
+        and (max-device-width: 667px)
+        and (-webkit-min-device-pixel-ratio: 2) {
+            .navbar {
+                font-size: 14px; /* Ajusta el tamaño de la fuente según sea necesario */
+                padding: 10px; /* Aumenta el padding para dar más espacio */
+                height: auto; /* Ajusta la altura del navbar */
+            }
+            .navbar-brand{
+                font-size: 64px;
+            }
+            .iphone-text {
+                font-size: 6px; /* Ajusta el tamaño de la fuente según sea necesario */
+            }
         }
 
         #map-canvas {
@@ -32,7 +44,6 @@
 <nav class="navbar navbar-expand-lg navbar-primary navbar-dark bg-primary">
     <a class="navbar-brand" href="/">Volver al inicio</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
     </button>
 </nav>
 <div class="container">
@@ -52,15 +63,15 @@
             <tbody id="registrosTable">
             <article th:each="registro : ${registros}">
                 <tr>
-                    <td id="id" th:text="${registro.id}"></td>
-                    <td th:text="${registro.formulario.nombre}"></td>
-                    <td th:text="${registro.formulario.sector}"></td>
-                    <td th:text="${registro.formulario.nivelEscolar}"></td>
+                    <td id="id" class="iphone-text" th:text="${registro.id}"></td>
+                    <td class="iphone-text" th:text="${registro.formulario.nombre}"></td>
+                    <td class="iphone-text" th:text="${registro.formulario.sector}"></td>
+                    <td class="iphone-text" th:text="${registro.formulario.nivelEscolar}"></td>
                     <td>
-                        <a href="#" class="mapLink" th:data-latitud="${registro.formulario.latitud}" th:data-longitud="${registro.formulario.longitud}">Ver en mapa</a></td>
+                        <a href="#" class="mapLink iphone-text" th:data-latitud="${registro.formulario.latitud}" th:data-longitud="${registro.formulario.longitud}">Ver en mapa</a>
+                    </td>
                 </tr>
             </article>
-
             </tbody>
         </table>
     </div>

@@ -6,9 +6,31 @@
     <title>Formulario con Thymeleaf y Bootstrap</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        @media only screen
+        and (min-device-width: 375px)
+        and (max-device-width: 667px)
+        and (-webkit-min-device-pixel-ratio: 2) {
+            .navbar {
+                font-size: 14px; /* Ajusta el tamaño de la fuente según sea necesario */
+                padding: 10px; /* Aumenta el padding para dar más espacio */
+                height: auto; /* Ajusta la altura del navbar */
+            }
+            .navbar-brand{
+                font-size: 24px;
+            }
+            .nav-link{
+                font-size: 34px;
+            }
+        }
+    </style>
 </head>
 <body>
-
+<nav class="navbar navbar-expand-lg navbar-primary navbar-dark bg-primary">
+    <a class="navbar-brand" href="/">Volver al inicio</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    </button>
+</nav>
 <div class="container">
     <h2>Formulario de Captura</h2>
     <form>
