@@ -91,14 +91,8 @@ public class UserController extends BaseController{
             int totalPages = (int) Math.ceil((double) totalUsers / 5);
             ctx.render("/public/templates/user-list.html", Map.of("usuarios", usuarios, "totalPages", totalPages, "currentPage", page));
         });
+
         app.get("/user/close", ctx -> {
-            Map<String, Object> model = new HashMap<>();
-
-            model.put("titulo", "Cerrar Sesion");
-            ctx.render("/public/templates/cerrar-sesion.html", model);
-        });
-
-        app.post("/user/close", ctx -> {
             ctx.removeCookie("rememberedUser");
             ctx.req().getSession().invalidate();
             ctx.redirect("/");
@@ -129,12 +123,6 @@ public class UserController extends BaseController{
 
             UserServices.getInstancia().update(user);
             ctx.redirect("/user/list");
-        });
-
-        app.post("/user/close", ctx -> {
-            ctx.removeCookie("rememberedUser");
-            ctx.req().getSession().invalidate();
-            ctx.redirect("/");
         });
 
         app.post("/user/borrar/{username}", ctx -> {

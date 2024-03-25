@@ -156,7 +156,7 @@
                     <a href="/user/register" class="nav-link">Registrar</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block" th:if="${session.username}">
-                    <a href="/user/close" class="nav-link">Cerrar Sesion</a>
+                    <a href="/user/close" id="logoutButton" class="nav-link">Cerrar sesión</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block" th:if="${session.username and session.username.administrator}">
                     <a href="/user/list" class="nav-link">User List</a>
@@ -180,6 +180,26 @@
 <div class="BottonCentered rounded-background-2">
     <div class="larger-text">
         <a href="/encuesta" class="nav-link">Presione Aquí</a>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="logoutModalLabel">Cerrar sesión</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de que quieres cerrar sesión?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <a href="/user/close" class="btn btn-primary">Cerrar sesión</a>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -225,6 +245,14 @@
                 }
             });
         }, 500); // Ejecuta la función cada 1000 milisegundos (1 segundo)
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#logoutButton').click(function(e) {
+            e.preventDefault();
+            $('#logoutModal').modal('show');
+        });
     });
 </script>
 </body>
