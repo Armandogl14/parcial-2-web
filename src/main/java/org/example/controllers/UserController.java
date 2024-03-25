@@ -65,18 +65,6 @@ public class UserController extends BaseController{
                         ctx.cookie("rememberedUser", aux.getUsername(),600);
                     }
                     ctx.sessionAttribute("username", aux);
-//                    try {
-//                        Class.forName("org.postgresql.Driver");
-//                        String dbUrl = System.getenv("JDBC_DATABASE_URL");
-//                        Connection connection = DriverManager.getConnection(dbUrl);
-//                        String sql = "INSERT INTO user_authentications (username, authentication_time) VALUES (?, ?)";
-//                        PreparedStatement statement = connection.prepareStatement(sql);
-//                        statement.setString(1, aux.getUsername());
-//                        statement.setObject(2, LocalDateTime.now());
-//                        statement.executeUpdate();
-//                    } catch (ClassNotFoundException | SQLException e) {
-//                        e.printStackTrace();
-//                    }
                     ctx.redirect("/");
                 }
 
@@ -116,5 +104,46 @@ public class UserController extends BaseController{
             ctx.redirect("/");
         });
 
+        app.get("/user/editar/{username}", ctx -> {
+            Usuario user = UserServices.getInstancia().find(ctx.pathParam("username"));
+            if (user == null) {
+                ctx.redirect("/");
+            }
+            Map<String, Object> model = new HashMap<>();
+            model.put("usuario", user);
+            ctx.render("/public/templates/editar-usuario.html", model);
+        });
+
+        app.post("user/editar/{username}", ctx -> {
+            Usuario user = UserServices.getInstancia().find(ctx.pathParam("username"));
+            if (user == null) {
+                ctx.redirect("/");
+            }
+            String usuario = ctx.formParam("usuario");
+            String password = ctx.formParam("password");
+            boolean admin = ctx.formParam("admin") != null;
+
+            user.setUsername(usuario);
+            user.setPassword(password);
+            user.setAdministrator(admin);
+
+            UserServices.getInstancia().update(user);
+            ctx.redirect("/user/list");
+        });
+
+        app.post("/user/close", ctx -> {
+            ctx.removeCookie("rememberedUser");
+            ctx.req().getSession().invalidate();
+            ctx.redirect("/");
+        });
+
+        app.post("/user/borrar/{username}", ctx -> {
+            Usuario user = UserServices.getInstancia().find(ctx.pathParam("username"));
+            if (user == null) {
+                ctx.redirect("/");
+            }
+            UserServices.getInstancia().delete(user);
+            ctx.redirect("/user/list");
+        });
     }
 }

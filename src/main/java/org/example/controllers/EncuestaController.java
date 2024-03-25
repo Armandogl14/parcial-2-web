@@ -22,6 +22,13 @@ public class EncuestaController extends BaseController{
 
     @Override
     public void aplicarRutas() {
+        app.before("/encuesta", ctx -> {
+            Usuario usuario = ctx.sessionAttribute("username");
+            if (usuario == null) {
+                ctx.redirect("/");
+            }
+        });
+
         app.get("/encuesta", ctx -> {
             ctx.render("public/templates/encuesta.html");
         });

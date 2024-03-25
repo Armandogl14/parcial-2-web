@@ -1,32 +1,59 @@
-var CACHE_NAME = 'encuesta-cache-v1';
+//Cache activo.
+var CACHE_NAME = 'offline-info';
+//listado de
 var urlsToCache = [
+    '/templates/index.html',
+    '/templates/encuesta.html',
+    '/templates/lisar-stored-registers.html',
+    '/templates/Login.html',
     '/',
     '/encuesta',
-    '/css/style.css',
-    '/js/indexedDB.js',
-    '/js/geolocalizacion.js'
 ];
-
 var fallback = "/templates/offline.html"
 
+//representa el evento cuando se esta instalando el services workers.
 self.addEventListener('install', function(event) {
+    console.log('Instalando el Services Worker');
+    // Utilizando las promesas para agregar los elementos definidos
     event.waitUntil(
-        caches.open(CACHE_NAME)
+        caches.open(CACHE_NAME) //Utilizando el api Cache definido en la variable.
             .then(function(cache) {
-                console.log('Opened cache');
-                return cache.addAll(urlsToCache);
+                console.log('Cache abierto');
+                return cache.addAll(urlsToCache); //agregando todos los elementos del cache.
             })
     );
 });
 
-self.addEventListener('fetch', function(event) {
-    event.respondWith(
-        caches.match(event.request)
-            .then(function(response) {
-                if (response) {
-                    return response;
+/**
+ * Los Service Workers se actualizan pero no se activan hasta que la quede una site activo
+ * que utilice la versión anterior. Para eliminar el problema, una vez activado borramos los cache no utilizado.
+ */
+self.addEventListener('activate', evt => {
+    console.log('Activando el services worker -  Limpiando el cache no utilizado');
+    evt.waitUntil(
+        caches.keys().then(function(keyList) { //Recupera todos los cache activos.
+            return Promise.all(keyList.map(function(key) {
+                if (CACHE_NAME.indexOf(key) === -1) { //si no es el cache por defecto borramos los elementos.
+                    return caches.delete(key); //borramos los elementos guardados.
                 }
-                return fetch(event.request);
-            })
+            }));
+        })
+    );
+});
+
+/**
+ * Representa el evento que se dispara cuando realizamos una solicitud desde la pagina al servidor.
+ * Interceptamos el mensaje y podemos verificar si lo tenemos en el cache o no.
+ */
+self.addEventListener('fetch', event => {
+    event.respondWith(
+        caches.match(event.request).then(response=>{
+            console.log(event);
+            //si existe retornamos la petición desde el cache, de lo contrario (retorna undefined) dejamos pasar la solicitud al servidor,
+            // lo hacemos con la función fetch pasando un objeto de petición.
+            return response || fetch(event.request);
+        }).catch(function (){ //En caso de tener un problema con la red, se mostrará el caso
+            return caches.match(fallback);
+        })
     );
 });

@@ -144,7 +144,7 @@
                     <a href="/encuesta/stored" class="nav-link">Sincronizar</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="/registro" class="nav-link">Listar Registros</a>
+                    <a href="/registro" class="nav-link" th:if="${session.username and session.username.administrator}">Listar Registros</a>
                 </li>
 
             </ul>

@@ -40,4 +40,8 @@ public class Usuario {
     public boolean isAdministrator() {
         return administrator;
     }
+
+    public void setAdministrator(boolean admin) {
+        this.administrator = admin;
+    }
 }
