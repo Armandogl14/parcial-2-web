@@ -36,7 +36,7 @@
                     <button type="button" class="btn btn-primary">Editar</button>
                 </a>
                 <!-- Botón de eliminar -->
-                <form action="@{'/user/eliminar/' + ${usuario.username}}" style="margin: 0;">
+                <form action="@{'/user/borrar/' + ${usuario.username}}" method="post" style="margin: 0;">
                     <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar este usuario?');">Eliminar</button>
                 </form>
             </td>

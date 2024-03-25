@@ -50,22 +50,21 @@ public class UserController extends BaseController{
             Map<String, Object> model = new HashMap<>();
 
             model.put("titulo", "Crear");
-            ctx.render("/public/templates/register.html", model);
+            ctx.render("/public/templates/crear-user.html", model);
         });
 
         app.post("/user/crear", ctx -> {
-            String user = ctx.formParam("usuario");
-            String name = ctx.formParam("nombre");
-            String pass = ctx.formParam("password");
+            String usuario = ctx.formParam("usuario");
+            String password = ctx.formParam("password");
+            boolean admin = ctx.formParam("Admin") != null;
 
-            Usuario existingUser = UserServices.getInstancia().findUserByUsername(user);
+            Usuario existingUser = UserServices.getInstancia().findUserByUsername(usuario);
             if (existingUser != null) {
                 ctx.render("/templates/register.html", Map.of("error", "El nombre de usuario ya existe"));
             }
             else{
-                Usuario temp = new Usuario(user, pass, false);
+                Usuario temp = new Usuario(usuario, password, admin);
                 UserServices.getInstancia().insert(temp);
-                //ctx.sessionAttribute("username", temp);
                 ctx.redirect("/user/list");
             }
         });
@@ -138,17 +137,17 @@ public class UserController extends BaseController{
             }
             String usuario = ctx.formParam("usuario");
             String password = ctx.formParam("password");
-            boolean admin = ctx.formParam("admin") == null;
+            boolean admin = ctx.formParam("Admin") != null;
 
             user.setUsername(usuario);
             user.setPassword(password);
-            if(admin){
+            /*if(admin){
                 user.setAdministrator(true);
             }
             else{
                 user.setAdministrator(false);
-            }
-            //user.setAdministrator(admin);
+            }*/
+            user.setAdministrator(admin);
 
             UserServices.getInstancia().update(user);
             ctx.redirect("/user/list");

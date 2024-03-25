@@ -162,7 +162,7 @@
                     <a href="/user/list" class="nav-link">User List</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="/encuesta/stored" class="nav-link">Sincronizar</a>
+                    <a href="/encuesta/stored" class="nav-link" th:if="${session.username}">Sincronizar</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="/registro" class="nav-link" th:if="${session.username and session.username.administrator}">Listar Registros</a>

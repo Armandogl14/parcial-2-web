@@ -143,9 +143,22 @@ var tiempoReconectar = 5000;
 
 async function syncWithServer() {
     let records = await getAllRecords();
-    conectar(records);
+    //verificarConexion(records);
+    $.ajax({
+        url: '/encuesta/sincronizar',
+        type: 'POST',
+        data: JSON.stringify(records),
+        contentType: 'application/json',
+        success: function(response) {
+            console.log('Sincronización exitosa');
+            deleteAllRecords();
+        },
+        error: function(error) {
+            console.log('Error en la sincronización', error);
+        }
+    });
 }
-
+/*
 function conectar(records) {
     webSocket = new WebSocket("wss://" + location.hostname + ":" + location.port + "/encuesta/sincronizar");
     webSocket.onopen = function() {
@@ -159,7 +172,7 @@ function conectar(records) {
         console.log("Desconectado - status "+this.readyState);
     };
 }
-
+*/
 function deleteAllRecords() {
     let transaction = db.transaction(['encuestas'], 'readwrite');
     let objectStore = transaction.objectStore('encuestas');
@@ -173,10 +186,10 @@ function deleteAllRecords() {
     };
 }
 
-function verificarConexion(records){
-    if(!webSocket || webSocket.readyState == 3){
-        conectar(records);
-    }
-}
+//function verificarConexion(records){
+//    if(!webSocket || webSocket.readyState == 3){
+//        conectar(records);
+//    }
+//}
 
-setInterval(verificarConexion, tiempoReconectar); //para reconectar.
+//setInterval(verificarConexion, tiempoReconectar); //para reconectar.
