@@ -27,3 +27,4 @@ function setCoordinates() {
     // Store the coordinates in the form's hidden input fields
     document.getElementById('latitud').value = lat;
     document.getElementById('longitud').value = lon;
+}
